@@ -4,7 +4,8 @@
   "description": "a practice application for task tracking",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "SET NODE_ENV=dev && node server.js",
+    "test": "mocha --timeout 10000"
   },
   "author": "Andrew McGarrity <adrmcgarrity@gmail.com> (@drewgaze)",
   "license": "MIT",
