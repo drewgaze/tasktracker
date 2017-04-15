@@ -3,40 +3,31 @@ let mongoose = require('mongoose'),
 
 const getTasks = (req, res) => {
 	let query = Task.find({});
-	query.exec((error, tasks) => {
-		if (error) res.send(error);
-		res.json(tasks);
-	});
+	query.exec()
+	.then(tasks => res.json(tasks))
+	.catch(error => res.send(error));
 };
 const createTask = (req, res) => {
 	let task = new Task(req.body);
-	task.save((error, task) => {
-		if (error) {
-			res.send(error);
-		} else {
-			res.json(task);
-		}
-	});
+	task.save()
+	.then(task => res.json(task))
+	.catch(error => res.send(error));
 };
 const getTask = (req, res) => {
-	Task.findById(req.params.id, (error, task) => {
-		if (error) res.send(error);
-		res.json(book);
-	});
+	Task.findById(req.params.id).exec()
+	.then(task => res.json(task))
+	.catch(error => res.send(error));
 };
 const deleteTask = (req, res) => {
-	Task.remove({_id: req.params.id}, (error, result) => {
-		res.json({message: 'Deleted', result});
-	});
+	Task.remove({_id: req.params.id})
+	.then(result => res.json({message: 'Deleted', result}))
+	.catch(error => res.send(error));
 };
 const updateTask = (req, res) => {
-	Task.findById({_id: req.params.id}, (error, task) => {
-		if (error) res.send(error);
-		Object.assign(task, req.body).save((error, task) => {
-			if (error) res.send(error);
-			res.json({message: 'Updated', task});
-		});
-	});
+	Task.findById({_id: req.params.id}).exec()
+	.then(task => Object.assign(task, req.body).save())
+	.then(task => res.json({message: 'Updated', task}))
+	.catch(error => res.send(error));
 };
 
 module.exports = {getTasks, createTask, getTask, deleteTask, updateTask};
